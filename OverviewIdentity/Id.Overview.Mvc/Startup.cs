@@ -45,6 +45,11 @@ namespace Id.Overview.Mvc
                     options.Password.RequireLowercase = true; // Determina a obrigatoriedade de uma letra minuscula na senha
                     options.Password.RequireUppercase = true; // Determina a obrigatoriedade de uma letra maiuscula na senha
                     options.Password.RequireNonAlphanumeric = true; // Determina a obrigatoriedade de um caracterer especial na senha
+
+                    // SignIn Options
+                    options.SignIn.RequireConfirmedEmail = false; // Determina para o usuario realizar o signIn no sistema ele deve ter um email confirmado
+                    options.SignIn.RequireConfirmedPhoneNumber = false; // Determina para o usuario realizar o signIn no sistema o usuario deve ter confirmado um numero de telefone
+
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
