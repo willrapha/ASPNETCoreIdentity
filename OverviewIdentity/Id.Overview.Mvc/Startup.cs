@@ -50,6 +50,12 @@ namespace Id.Overview.Mvc
                     options.SignIn.RequireConfirmedEmail = false; // Determina para o usuario realizar o signIn no sistema ele deve ter um email confirmado
                     options.SignIn.RequireConfirmedPhoneNumber = false; // Determina para o usuario realizar o signIn no sistema o usuario deve ter confirmado um numero de telefone
 
+                    // Tokens Options
+                    // options.Tokens.AuthenticatorTokenProvider // Utilizado para gerar valores para o two factory authentication
+                    // options.Tokens.ChangeEmailTokenProvider // Obtem ou definine o ChangeEmailTokenProvider usado para gerar tokens do email de confirmação do processo de alteração de email do usuario
+                    // options.Tokens.ChangePhoneNumberTokenProvider // Obtem ou definine o ChangePhoneNumberTokenProvider usado para gerar tokens para o telefone de confirmação do processo de alteração do telefone do usuario
+                    // options.Tokens.EmailConfirmationTokenProvider // Define o token provider utilizado para gerar tokens utilizados na configuração de um email utilizado pelo usuario
+                    // options.Tokens.PasswordResetTokenProvider // Usuado para gerar tokens no processo de alteração da senha do usuario         
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
