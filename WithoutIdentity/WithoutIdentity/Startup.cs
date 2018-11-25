@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WithoutIdentity.Data;
+using WithoutIdentity.Models;
 
 namespace WithoutIdentity
 {
@@ -26,7 +28,11 @@ namespace WithoutIdentity
             var connectionString = Configuration.GetConnectionString("IdentityDb");
             services.AddDbContext<ApplicationDataContext>(options => options.UseSqlServer(connectionString));
 
-
+            // ApplicationUser - classe que representa o usuario
+            // IdentityRole - Regras do usuario
+            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+                .AddEntityFrameworkStores<ApplicationDataContext>() // Registra o EntityFramework como responsavel pelo armazenamento dos dados do Identity
+                .AddDefaultTokenProviders(); // Adiciona o provider padrao de token
 
             services.AddMvc();
         }
@@ -43,6 +49,9 @@ namespace WithoutIdentity
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            // Adicionando o Identity ao pipeline da aplicação
+            app.UseAuthentication();
 
             app.UseStaticFiles();
 
