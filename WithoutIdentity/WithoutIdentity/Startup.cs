@@ -22,7 +22,6 @@ namespace WithoutIdentity
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("IdentityDb");
@@ -34,10 +33,31 @@ namespace WithoutIdentity
                 .AddEntityFrameworkStores<ApplicationDataContext>() // Registra o EntityFramework como responsavel pelo armazenamento dos dados do Identity
                 .AddDefaultTokenProviders(); // Adiciona o provider padrao de token
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Configurações de senha
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8; // Valor default 6 digitos
+                options.Password.RequiredUniqueChars = 6; // Valor default 1
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+            });
+
+            // Configurações dos cookies
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.LoginPath = "/Account/Login"; // Caminho para login
+                options.LogoutPath = "/Account/Logout"; // Caminho para logout
+                options.AccessDeniedPath = "/Account/AccessDenied"; // Caminho para erro 403 - acesso negado
+                options.SlidingExpiration = true; // Se passou da metade do tempo de expiração do cookie é renovado automaticamente
+            });
+
             services.AddMvc();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
