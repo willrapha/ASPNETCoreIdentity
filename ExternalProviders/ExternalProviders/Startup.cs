@@ -77,7 +77,14 @@ namespace ExternalProviders
                 microsoftOptions.ClientSecret = Configuration["Authentication:Microsoft:ClientSecret"];
                 microsoftOptions.SaveTokens = true;
             });
-            
+
+            services.AddAuthentication().AddLinkedIn(linkedinOptions =>
+            {
+                linkedinOptions.ClientId = Configuration["Authentication:Linkedin:ClientId"];
+                linkedinOptions.ClientSecret = Configuration["Authentication:Linkedin:ClientSecret"];
+                linkedinOptions.SaveTokens = true;
+            });
+
             // Fim External Logins
 
             // Add application services.
