@@ -36,18 +36,27 @@ namespace ExternalProviders
                 .AddDefaultTokenProviders();
 
             // External Logins
+            //Facebook
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
 
-                // Esta opções precisam de analise da equipe do facebook
+                // Esta opções precisam de analise da equipe do facebook para novas aplicações
                 // facebookOptions.Scope.Add("user_birthday"); // Data de aniversario do usuario
                 // facebookOptions.ClaimActions.MapJsonKey(ClaimTypes.Locality, "locale"); // Pega localidade do usuario
 
                 facebookOptions.SaveTokens = true; // Salva os tokens dentro da aplicação
             });
 
+            //Google
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = Configuration["Authentication:Goole:ClientId"];
+                googleOptions.ClientSecret = Configuration["Authentication:Goole:ClientSecret"];
+                googleOptions.SaveTokens = true;
+            });
+            
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
