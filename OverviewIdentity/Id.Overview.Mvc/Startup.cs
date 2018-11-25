@@ -33,10 +33,18 @@ namespace Id.Overview.Mvc
             // AddDefaultTokenProviders - Adiciona o provider padrão de token que é utilizado para gerar token de reset de senha, mudança de email
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                 {
+                    // Lockout Options
                     options.Lockout.AllowedForNewUsers = true; // Determina se um novo usuario podera ser bloqueado ou nao
                     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Tempo que o usuario ficara bloqueado
                     options.Lockout.MaxFailedAccessAttempts = 5; // Numero de tentativa de acesso com falha antes do o usuario ser bloqueado com o Lockout ativo
 
+                    // Password Options
+                    options.Password.RequireDigit = true; // Determina a obrigatoriedade de um numero entre 0 e 9 na senha
+                    options.Password.RequiredLength = 6; // Tamanho minimo aceitavel para o usuario criar uma senha
+                    options.Password.RequiredUniqueChars = 1; // Aplicavel somente ao ASP.NET Core 2.0, Determina a quantidade de caracteres distintos na senha 'unicos'
+                    options.Password.RequireLowercase = true; // Determina a obrigatoriedade de uma letra minuscula na senha
+                    options.Password.RequireUppercase = true; // Determina a obrigatoriedade de uma letra maiuscula na senha
+                    options.Password.RequireNonAlphanumeric = true; // Determina a obrigatoriedade de um caracterer especial na senha
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();

@@ -50,7 +50,7 @@ namespace Id.Overview.Mvc.Controllers
 
             ViewData["ReturnUrl"] = returnUrl;
             return View();
-        }
+        } 
 
         [HttpPost]
         [AllowAnonymous]
@@ -62,7 +62,7 @@ namespace Id.Overview.Mvc.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true); // lockoutOnFailure: true - ativado para tentativa de senha
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true); // lockoutOnFailure: true - ativado para tentativa de senha - configurado no Startup
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
