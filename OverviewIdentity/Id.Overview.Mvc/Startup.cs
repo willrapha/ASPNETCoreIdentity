@@ -31,7 +31,13 @@ namespace Id.Overview.Mvc
 
             // AddEntityFrameworkStores - Adiciona uma implementação do entity framework para armazenação do identity
             // AddDefaultTokenProviders - Adiciona o provider padrão de token que é utilizado para gerar token de reset de senha, mudança de email
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    options.Lockout.AllowedForNewUsers = true; // Determina se um novo usuario podera ser bloqueado ou nao
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Tempo que o usuario ficara bloqueado
+                    options.Lockout.MaxFailedAccessAttempts = 5; // Numero de tentativa de acesso com falha antes do o usuario ser bloqueado com o Lockout ativo
+
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
