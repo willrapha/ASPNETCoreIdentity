@@ -56,6 +56,10 @@ namespace Id.Overview.Mvc
                     // options.Tokens.ChangePhoneNumberTokenProvider // Obtem ou definine o ChangePhoneNumberTokenProvider usado para gerar tokens para o telefone de confirmação do processo de alteração do telefone do usuario
                     // options.Tokens.EmailConfirmationTokenProvider // Define o token provider utilizado para gerar tokens utilizados na configuração de um email utilizado pelo usuario
                     // options.Tokens.PasswordResetTokenProvider // Usuado para gerar tokens no processo de alteração da senha do usuario         
+
+                    // User Options
+                    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";//  Define os caracteres permitido para o nome do usuario
+                    options.User.RequireUniqueEmail = false; // Determina se em nossa aplicação cada usuario tenha um email unico
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
