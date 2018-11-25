@@ -36,6 +36,7 @@ namespace ExternalProviders
                 .AddDefaultTokenProviders();
 
             // External Logins
+
             //Facebook
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -49,14 +50,36 @@ namespace ExternalProviders
                 facebookOptions.SaveTokens = true; // Salva os tokens dentro da aplicação
             });
 
-            //Google
+            // Google
             services.AddAuthentication().AddGoogle(googleOptions =>
             {
-                googleOptions.ClientId = Configuration["Authentication:Goole:ClientId"];
-                googleOptions.ClientSecret = Configuration["Authentication:Goole:ClientSecret"];
+                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
                 googleOptions.SaveTokens = true;
             });
+
+            // Twitter
+            services.AddAuthentication().AddTwitter(twitterOptions =>
+            {
+                twitterOptions.ConsumerKey = Configuration["Authentication:Twitter:ConsumerKey"];
+                twitterOptions.ConsumerSecret = Configuration["Authentication:Twitter:ConsumerSecret"];
+                twitterOptions.SaveTokens = true;
+
+                twitterOptions.RetrieveUserDetails = true; // Queremos que o serviço obtenha as informações do usuario
+
+                // No twitter devemos falar qual campo queremos obter
+                twitterOptions.ClaimActions.MapJsonKey(ClaimTypes.Email, "email", ClaimValueTypes.Email);
+            });
+
+            services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
+            {
+                microsoftOptions.ClientId = Configuration["Authentication:Microsoft:ClientId"];
+                microsoftOptions.ClientSecret = Configuration["Authentication:Microsoft:ClientSecret"];
+                microsoftOptions.SaveTokens = true;
+            });
             
+            // Fim External Logins
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
