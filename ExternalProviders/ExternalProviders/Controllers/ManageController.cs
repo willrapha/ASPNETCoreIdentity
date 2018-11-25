@@ -308,6 +308,7 @@ namespace ExternalProviders.Controllers
         }
 
         [HttpGet]
+        // Metodo que verifica se o usuario esta logado e monta a model para ser apresentada na tela ao usuario
         public async Task<IActionResult> TwoFactorAuthentication()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -316,6 +317,7 @@ namespace ExternalProviders.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
+            // Tenta obter e verificar se o usuario tem um autenticator key, se o TwoFactor ja esta habilitado e se ele ta tem algum recovery code criado
             var model = new TwoFactorAuthenticationViewModel
             {
                 HasAuthenticator = await _userManager.GetAuthenticatorKeyAsync(user) != null,
@@ -364,6 +366,7 @@ namespace ExternalProviders.Controllers
         }
 
         [HttpGet]
+        // Metodo que é chamado assim que o usuario tenta acessar a tela de autenticacao para habilitar o 2FA
         public async Task<IActionResult> EnableAuthenticator()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -380,6 +383,7 @@ namespace ExternalProviders.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        // Metodo que vai apos a confirmação do usuario para criar um novo autenticador, orquestar tudo o que for necessario para configurar e validar o codigo informado ao usuario
         public async Task<IActionResult> EnableAuthenticator(EnableAuthenticatorViewModel model)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -416,6 +420,7 @@ namespace ExternalProviders.Controllers
         }
 
         [HttpGet]
+        // Metodo que apos realizar o processo de autenticação na aplicação o usuario é enviado para essa tela para poder visualizar os codigos de recovery no caso de perda do celular
         public IActionResult ShowRecoveryCodes()
         {
             var recoveryCodes = (string[])TempData[RecoveryCodesKey];
@@ -454,12 +459,14 @@ namespace ExternalProviders.Controllers
         [HttpGet]
         public async Task<IActionResult> GenerateRecoveryCodesWarning()
         {
+            // Valida se o usuario esta logado
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
+            // Se nao esta habilitado o TwoFactor
             if (!user.TwoFactorEnabled)
             {
                 throw new ApplicationException($"Cannot generate recovery codes for user with ID '{user.Id}' because they do not have 2FA enabled.");
@@ -503,6 +510,7 @@ namespace ExternalProviders.Controllers
 
         private string FormatKey(string unformattedKey)
         {
+            // Responsavel por pegar o que foi gerado pelo LoadSharedKeyAndQrCodeUriAsync e tornar ele mais legivel para o usuario
             var result = new StringBuilder();
             int currentPosition = 0;
             while (currentPosition + 4 < unformattedKey.Length)
@@ -518,17 +526,20 @@ namespace ExternalProviders.Controllers
             return result.ToString().ToLowerInvariant();
         }
 
+        // Metodo que sera responsavel por gerar a url ao aplicativo autenticador
         private string GenerateQrCodeUri(string email, string unformattedKey)
         {
+            // AuthenticatorUriFormat - url pre formatada pelo identity que sera utilizada pelo aplicativo gerador de chaves
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("ExternalProviders"),
+                _urlEncoder.Encode("2FA Test"), // Nome do aplicativo
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }
 
         private async Task LoadSharedKeyAndQrCodeUriAsync(ApplicationUser user, EnableAuthenticatorViewModel model)
         {
+            // Tenta obter um authenticatorKey do usuario e caso ele nao tenha é resetado esse authenticatorKey e obtido uma nova authenticatorKey para ser enviado ao usuario para realizar a autenticação
             var unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
             if (string.IsNullOrEmpty(unformattedKey))
             {
