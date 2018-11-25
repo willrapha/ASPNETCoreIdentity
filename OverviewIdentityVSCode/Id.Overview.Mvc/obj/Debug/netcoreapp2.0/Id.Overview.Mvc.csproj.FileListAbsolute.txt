@@ -1,0 +1,12 @@
+C:\Users\Willian Raphael\source\repos\ProjetoIdentity\ASPNETCoreIdentity\OverviewIdentity\Id.Overview.Mvc\bin\Debug\netcoreapp2.0\app.db
+C:\Users\Willian Raphael\source\repos\ProjetoIdentity\ASPNETCoreIdentity\OverviewIdentity\Id.Overview.Mvc\bin\Debug\netcoreapp2.0\Id.Overview.Mvc.deps.json
+C:\Users\Willian Raphael\source\repos\ProjetoIdentity\ASPNETCoreIdentity\OverviewIdentity\Id.Overview.Mvc\bin\Debug\netcoreapp2.0\Id.Overview.Mvc.runtimeconfig.json
+C:\Users\Willian Raphael\source\repos\ProjetoIdentity\ASPNETCoreIdentity\OverviewIdentity\Id.Overview.Mvc\bin\Debug\netcoreapp2.0\Id.Overview.Mvc.runtimeconfig.dev.json
+C:\Users\Willian Raphael\source\repos\ProjetoIdentity\ASPNETCoreIdentity\OverviewIdentity\Id.Overview.Mvc\bin\Debug\netcoreapp2.0\Id.Overview.Mvc.dll
+C:\Users\Willian Raphael\source\repos\ProjetoIdentity\ASPNETCoreIdentity\OverviewIdentity\Id.Overview.Mvc\bin\Debug\netcoreapp2.0\Id.Overview.Mvc.pdb
+C:\Users\Willian Raphael\source\repos\ProjetoIdentity\ASPNETCoreIdentity\OverviewIdentity\Id.Overview.Mvc\obj\Debug\netcoreapp2.0\Id.Overview.Mvc.csproj.CoreCompileInputs.cache
+C:\Users\Willian Raphael\source\repos\ProjetoIdentity\ASPNETCoreIdentity\OverviewIdentity\Id.Overview.Mvc\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+C:\Users\Willian Raphael\source\repos\ProjetoIdentity\ASPNETCoreIdentity\OverviewIdentity\Id.Overview.Mvc\obj\Debug\netcoreapp2.0\Id.Overview.Mvc.AssemblyInfoInputs.cache
+C:\Users\Willian Raphael\source\repos\ProjetoIdentity\ASPNETCoreIdentity\OverviewIdentity\Id.Overview.Mvc\obj\Debug\netcoreapp2.0\Id.Overview.Mvc.AssemblyInfo.cs
+C:\Users\Willian Raphael\source\repos\ProjetoIdentity\ASPNETCoreIdentity\OverviewIdentity\Id.Overview.Mvc\obj\Debug\netcoreapp2.0\Id.Overview.Mvc.dll
+C:\Users\Willian Raphael\source\repos\ProjetoIdentity\ASPNETCoreIdentity\OverviewIdentity\Id.Overview.Mvc\obj\Debug\netcoreapp2.0\Id.Overview.Mvc.pdb
