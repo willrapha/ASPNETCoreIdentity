@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ExternalProviders.Data;
 using ExternalProviders.Models;
 using ExternalProviders.Services;
+using Microsoft.AspNetCore.Authentication;
 
 namespace ExternalProviders
 {
@@ -32,6 +34,19 @@ namespace ExternalProviders
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            // External Logins
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+
+                // Esta opções precisam de analise da equipe do facebook
+                // facebookOptions.Scope.Add("user_birthday"); // Data de aniversario do usuario
+                // facebookOptions.ClaimActions.MapJsonKey(ClaimTypes.Locality, "locale"); // Pega localidade do usuario
+
+                facebookOptions.SaveTokens = true; // Salva os tokens dentro da aplicação
+            });
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();

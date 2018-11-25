@@ -255,10 +255,9 @@ namespace ExternalProviders.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ExternalLogin(string provider, string returnUrl = null)
         {
-            // Request a redirect to the external login provider.
             var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-            return Challenge(properties, provider);
+            return Challenge(properties, provider); // Manda a informação para o external provider no exemplo 'Facebook'
         }
 
         [HttpGet]
@@ -276,7 +275,6 @@ namespace ExternalProviders.Controllers
                 return RedirectToAction(nameof(Login));
             }
 
-            // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
@@ -317,6 +315,13 @@ namespace ExternalProviders.Controllers
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        foreach (var token in info.AuthenticationTokens)
+                        {
+                            // salvando token em nossa base de dados
+                            await _userManager.SetAuthenticationTokenAsync(user, info.LoginProvider, token.Name,
+                                token.Value);
+                        }
+
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         return RedirectToLocal(returnUrl);
